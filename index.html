@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Reserva de Salas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">Sistema de Reserva de Salas</div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="userName">Usuário</span>
+                <button class="btn btn-danger" id="logoutBtn">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Page -->
+    <div class="page active" id="loginPage">
+        <div class="container">
+            <div class="login-container">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
+                </form>
+                <div style="margin-top: 1rem; text-align: center;">
+                    <p>Use: admin@email.com / senha123 para teste</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </fix-- Main Application (after login) -->
+    <div class="container" id="appContainer" style="display: none;">
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-page="dashboardPage">Salas Disponíveis</div>
+            <div class="nav-tab" data-page="reservationPage">Nova Reserva</div>
+            <div class="nav-tab" data-page="historyPage">Histórico</div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div class="page active" id="dashboardPage">
+            <div class="dashboard-header">
+                <h2>Salas de Reunião Disponíveis</h2>
+                <button class="btn btn-primary" id="newReservationBtn">Nova Reserva</button>
+            </div>
+            <div class="rooms-grid" id="roomsGrid">
+                <!-- Rooms will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Reservation Page -->
+        <div class="page" id="reservationPage">
+            <h2>Nova Reserva</h2>
+            <div class="reservation-form">
+                <form id="reservationForm">
+                    <div class="form-group">
+                        <label for="roomSelect">Sala</label>
+                        <select class="form-control" id="roomSelect" required>
+                            <option value="">Selecione uma sala</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reservationDate">Data</label>
+                            <input type="date" class="form-control" id="reservationDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime">Hora de Início</label>
+                            <input type="time" class="form-control" id="startTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">Hora de Término</label>
+                            <input type="time" class="form-control" id="endTime" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="purpose">Finalidade da Reserva</label>
+                        <textarea class="form-control" id="purpose" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="participants">Número de Participantes</label>
+                        <input type="number" class="form-control" id="participants" min="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Reservar Sala</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Confirmation Page -->
+        <div class="page" id="confirmationPage">
+            <div class="confirmation-container">
+                <div class="confirmation-icon">✓</div>
+                <h2>Reserva Confirmada!</h2>
+                <div class="reservation-id" id="confirmationId">ID: #RES-001</div>
+                <div class="reservation-details">
+                    <p><strong>Sala:</strong> <span id="confRoomName">Sala 1</span></p>
+                    <p><strong>Data:</strong> <span id="confDate">01/01/2025</span></p>
+                    <p><strong>Horário:</strong> <span id="confTime">14:00 - 15:00</span></p>
+                    <p><strong>Finalidade:</strong> <span id="confPurpose">Reunião de equipe</span></p>
+                </div>
+                <button class="btn btn-primary" id="backToDashboardBtn">Voltar ao Dashboard</button>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div class="page" id="historyPage">
+            <h2>Histórico de Reservas</h2>
+            <div class="history-filters">
+                <select class="form-control" id="filterStatus" style="max-width: 200px;">
+                    <option value="">Todos os status</option>
+                    <option value="active">Ativas</option>
+                    <option value="completed">Concluídas</option>
+                    <option value="cancelled">Canceladas</option>
+                </select>
+                <select class="form-control" id="filterRoom" style="max-width: 200px;">
+                    <option value="">Todas as salas</option>
+                </select>
+                <input type="date" class="form-control" id="filterDate" style="max-width: 200px;">
+                <button class="btn btn-primary" id="applyFiltersBtn">Aplicar Filtros</button>
+            </div>
+            <table class="reservations-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sala</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Finalidade</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="reservationsTableBody">
+                    <!-- Reservations will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
